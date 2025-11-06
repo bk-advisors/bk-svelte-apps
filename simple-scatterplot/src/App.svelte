@@ -17,11 +17,17 @@
     .domain([0, 60])  // input
     .range([height, 0]);  // output
 
+  // Import Axis components
+
+  import AxisX from '$components/AxisX.svelte';
+  import AxisY from '$components/AxisY.svelte';
+
 </script>
 
 <!-- Svelte each block to display data (must be in component markup, not inside <script>) -->
 
 <svg width="{width}" height="{height}" style="border:1px solid black;">
+<AxisX xScale = {xScale} height={height} />
   {#each data as d}
     <circle 
     cx="{xScale(d.grade)}" 

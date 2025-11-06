@@ -4,11 +4,12 @@
     "target": "ESNext",
     "module": "ESNext",
     /**
-     * svelte-preprocess cannot figure out whether you have
-     * a value or a type, so tell TypeScript to enforce using
-     * `import type` instead of `import` for Types.
+     * `importsNotUsedAsValues` was removed in newer TypeScript versions.
+     * Use `verbatimModuleSyntax` to make the language service preserve
+     * import/export syntax so Svelte's preprocessors can reliably
+     * distinguish type-only imports.
      */
-    "importsNotUsedAsValues": "error",
+    "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
     /**
