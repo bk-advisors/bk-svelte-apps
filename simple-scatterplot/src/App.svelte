@@ -8,6 +8,13 @@
   let width = 400;
   let height = 400;
 
+  const margin = {
+    right: 20,
+    left: 30,
+    top: 20,
+    bottom: 0
+  }
+
 // Scales
  let xScale = scaleLinear()
    .domain([0, 100])  // input
@@ -27,7 +34,9 @@
 <!-- Svelte each block to display data (must be in component markup, not inside <script>) -->
 
 <svg width="{width}" height="{height}" style="border:1px solid black;">
+  <g transform="translate({margin.left}, {margin.top})">  
 <AxisX xScale = {xScale} height={height} />
+<AxisY yScale = {yScale} width={width} />
   {#each data as d}
     <circle 
     cx="{xScale(d.grade)}" 
@@ -37,6 +46,7 @@
     stroke="black"
     stoke-width="1" />
   {/each}
+  </g>
 </svg>
 
 {#each data as d}
