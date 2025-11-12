@@ -10,19 +10,22 @@
 
   const margin = {
     right: 20,
-    left: 30,
+    left: 40,
     top: 20,
-    bottom: 0
+    bottom: 25
   }
+
+  innerWidth = width - margin.left - margin.right;
+  innerHeight = height - margin.top - margin.bottom;
 
 // Scales
  let xScale = scaleLinear()
    .domain([0, 100])  // input
-   .range([0, width]);  // output
+   .range([0, innerWidth]);  // output
 
   let yScale = scaleLinear()
     .domain([0, 60])  // input
-    .range([height, 0]);  // output
+    .range([innerHeight, 0]);  // output
 
   // Import Axis components
 
@@ -35,8 +38,8 @@
 
 <svg width="{width}" height="{height}" style="border:1px solid black;">
   <g transform="translate({margin.left}, {margin.top})">  
-<AxisX xScale = {xScale} height={height} />
-<AxisY yScale = {yScale} width={width} />
+<AxisX xScale = {xScale} height={innerHeight} />
+<AxisY yScale = {yScale} width={innerWidth} />
   {#each data as d}
     <circle 
     cx="{xScale(d.grade)}" 
