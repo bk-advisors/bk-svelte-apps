@@ -38,7 +38,7 @@
 
 <svg width="{width}" height="{height}" style="border:1px solid black;">
   <g transform="translate({margin.left}, {margin.top})">  
-<AxisX xScale = {xScale} height={innerHeight} />
+<AxisX xScale = {xScale} height={innerHeight} width={innerWidth}/>
 <AxisY yScale = {yScale} width={innerWidth} />
   {#each data as d}
     <circle 
@@ -55,3 +55,13 @@
 {#each data as d}
   <p>{d.name} studied for {d.hours} hours and scored {d.grade}</p>
 {/each}
+
+<style>
+  /* Component styles go here */
+
+  :global(.tick text, .axis-title) {
+    font-weight: 400;
+    font-size: 10px;
+    fill: #6b7280; /* Tailwind gray-500 */
+  }
+</style>
