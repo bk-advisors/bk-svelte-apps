@@ -15,11 +15,11 @@
     bottom: 25
   }
 
-  innerWidth = width - margin.left - margin.right;
-  innerHeight = height - margin.top - margin.bottom;
+  $: innerWidth = width - margin.left - margin.right;
+  let innerHeight = height - margin.top - margin.bottom;
 
 // Scales
- let xScale = scaleLinear()
+ $: xScale = scaleLinear()
    .domain([0, 100])  // input
    .range([0, innerWidth]);  // output
 
@@ -35,7 +35,7 @@
 </script>
 
 <!-- Svelte each block to display data (must be in component markup, not inside <script>) -->
-
+<div class="scatterplot-container" bind:clientWidth={width}>
 <svg width="{width}" height="{height}" style="border:1px solid black;">
   <g transform="translate({margin.left}, {margin.top})">  
 <AxisX xScale = {xScale} height={innerHeight} width={innerWidth}/>
@@ -51,7 +51,7 @@
   {/each}
   </g>
 </svg>
-
+</div>
 {#each data as d}
   <p>{d.name} studied for {d.hours} hours and scored {d.grade}</p>
 {/each}
