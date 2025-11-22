@@ -31,30 +31,41 @@
 
   import AxisX from '$components/AxisX.svelte';
   import AxisY from '$components/AxisY.svelte';
+  // removed deep import from d3-scale; use Math.log or the public d3 API if needed
+
+  // Tooltip state
+  let hoveredData = null;
+  $: console.log('Hovered data:', hoveredData);
+
+  // Import Tooltip component
+  import Tooltip from '$components/Tooltip.svelte';
 
 </script>
 
 <!-- Svelte each block to display data (must be in component markup, not inside <script>) -->
 <div class="scatterplot-container" bind:clientWidth={width}>
-<svg width="{width}" height="{height}" style="border:1px solid black;">
+<svg width={width} height={height} style="border:1px solid black;">
   <g transform="translate({margin.left}, {margin.top})">  
-<AxisX xScale = {xScale} height={innerHeight} width={innerWidth}/>
-<AxisY yScale = {yScale} width={innerWidth} />
+<AxisX xScale={xScale} height={innerHeight} width={innerWidth} />
+<AxisY yScale={yScale} width={innerWidth} />
   {#each data as d}
-    <circle 
-    cx="{xScale(d.grade)}" 
-    cy="{yScale(d.hours)}" 
-    r="5" 
-    fill="blue"
-    stroke="black"
-    stoke-width="1" />
+    <circle
+      cx={xScale(d.grade)}
+      cy={yScale(d.hours)}
+      r={5}
+      fill="purple"
+      stroke="black"
+      stroke-width="1"
+      on:mouseover={() => hoveredData = d}
+      on:focus={() => hoveredData = d}
+    />
   {/each}
   </g>
 </svg>
+{#if hoveredData}
+<Tooltip {hoveredData} {xScale} {yScale} />
+{/if}
 </div>
-{#each data as d}
-  <p>{d.name} studied for {d.hours} hours and scored {d.grade}</p>
-{/each}
 
 <style>
   /* Component styles go here */
@@ -64,4 +75,9 @@
     font-size: 10px;
     fill: #6b7280; /* Tailwind gray-500 */
   }
+
+  .scatterplot-container {
+    position: relative;
+  }
+
 </style>
