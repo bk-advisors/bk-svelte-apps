@@ -35,7 +35,7 @@
 
   // Tooltip state
   let hoveredData = null;
-  $: console.log('Hovered data:', hoveredData);
+ // $: console.log('Hovered data:', hoveredData);
 
   // Import Tooltip component
   import Tooltip from '$components/Tooltip.svelte';
@@ -63,7 +63,7 @@
   </g>
 </svg>
 {#if hoveredData}
-<Tooltip {hoveredData} {xScale} {yScale} />
+<Tooltip data={hoveredData} {xScale} {yScale} width={innerWidth} />
 {/if}
 </div>
 

@@ -1,20 +1,32 @@
 
 <script>
+
+    // Tooltip dimensions
+    let tooltipWidth;
+
     // Removed deep import into d3 internals. Use public APIs or built-in Math if needed.
 
-    export let hoveredData = null;
     export let xScale;
     export let yScale;
+    export let width;
+    export let data;
+
+    $: console.log(tooltipWidth + xPos > width, 'Tooltip width check');
+
+    
 
     // compute safe positions (guard when hoveredData is null)
-    $: xPos = hoveredData ? xScale(hoveredData.grade) : 0;
-    $: yPos = hoveredData ? yScale(hoveredData.hours) : 0;
+    $: xPos = data ? xScale(data.grade) : 0;
+    $: yPos = data ? yScale(data.hours) : 0;
+
+    // Adjust xPosition to prevent overflow
+    $: xPosition = (xPos + tooltipWidth > width) ? (xPos - tooltipWidth - 20) : xPos;
 </script>
 
-{#if hoveredData}
-    <div class="tooltip" style="left: {xPos + 50}px; top: {yPos + 20}px; background: white; padding: 8px 6px; pointer-events: none;">
-        <h1>{hoveredData.name} <span>{hoveredData.grade}%</span></h1>
-        <h2>{hoveredData.hours} hours studied</h2>
+{#if data}
+    <div bind:clientWidth={tooltipWidth} class="tooltip" style="left: {xPosition + 50}px; top: {yPos + 20}px; background: white; padding: 8px 6px; pointer-events: none;">
+        <h1>{data.name} <span>{data.grade}%</span></h1>
+        <h2>{data.hours} hours studied</h2>
     </div>
 {/if}
 

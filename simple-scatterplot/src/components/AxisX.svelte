@@ -26,5 +26,6 @@
 <text x={width} y="0" 
 dy="-6" 
 dominant-baseline = "start"
-text-anchor = "end" class="axis-title" >Final Grade (%) &rarr </text>
+text-anchor = "end" 
+class= "axis-title" >Final Grade (%) &rarr </text>
 </g>
