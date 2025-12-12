@@ -1,30 +1,35 @@
 
 <script>
+        // Tooltip dimensions
+        let tooltipWidth;
 
-    // Tooltip dimensions
-    let tooltipWidth;
+        // Removed deep import into d3 internals. Use public APIs or built-in Math if needed.
 
-    // Removed deep import into d3 internals. Use public APIs or built-in Math if needed.
+        export let xScale;
+        export let yScale;
+        export let width;
+        export let data;
 
-    export let xScale;
-    export let yScale;
-    export let width;
-    export let data;
+        $: console.log(tooltipWidth + xPos > width, 'Tooltip width check');
 
-    $: console.log(tooltipWidth + xPos > width, 'Tooltip width check');
+        // compute safe positions (guard when hoveredData is null)
+        $: xPos = data ? xScale(data.grade) : 0;
+        $: yPos = data ? yScale(data.hours) : 0;
 
-    
+        $: isFallingOffChart = (xPos + tooltipWidth > width);
 
-    // compute safe positions (guard when hoveredData is null)
-    $: xPos = data ? xScale(data.grade) : 0;
-    $: yPos = data ? yScale(data.hours) : 0;
+        // Nudges to position tooltip away from point
+        const xNudge = 15;
+        const yNudge = 30;
 
-    // Adjust xPosition to prevent overflow
-    $: xPosition = (xPos + tooltipWidth > width) ? (xPos - tooltipWidth - 20) : xPos;
+        // Adjust xPosition to prevent overflow
+        $: xPosition = isFallingOffChart ? (xPos - tooltipWidth - xNudge ) : xPos + xNudge;
+        $: yPosition = yPos + yNudge;
+
 </script>
 
 {#if data}
-    <div bind:clientWidth={tooltipWidth} class="tooltip" style="left: {xPosition + 50}px; top: {yPos + 20}px; background: white; padding: 8px 6px; pointer-events: none;">
+    <div bind:clientWidth={tooltipWidth} class="tooltip" style="left: {xPosition}px; top: {yPosition}px; background: white; padding: 8px 6px; pointer-events: none;">
         <h1>{data.name} <span>{data.grade}%</span></h1>
         <h2>{data.hours} hours studied</h2>
     </div>
