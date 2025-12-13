@@ -7,8 +7,8 @@
 
 
     // console.log(xScale);
-     console.log(height);
-     console.log(width);  
+    //  console.log(height);
+    // console.log(width);  
     
     let xTicks = [0, 25, 50, 75, 100];
 

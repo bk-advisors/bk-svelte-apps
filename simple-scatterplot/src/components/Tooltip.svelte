@@ -26,10 +26,12 @@
         $: xPosition = isFallingOffChart ? (xPos - tooltipWidth - xNudge ) : xPos + xNudge;
         $: yPosition = yPos + yNudge;
 
+        import {fly} from 'svelte/transition';
+
 </script>
 
 {#if data}
-    <div bind:clientWidth={tooltipWidth} class="tooltip" style="left: {xPosition}px; top: {yPosition}px; background: white; padding: 8px 6px; pointer-events: none;">
+    <div transition:fly={{y:-20}}  bind:clientWidth={tooltipWidth} class="tooltip" style="left: {xPosition}px; top: {yPosition}px; background: white; padding: 8px 6px; pointer-events: none;">
         <h1>{data.name} <span>{data.grade}%</span></h1>
         <h2>{data.hours} hours studied</h2>
     </div>

@@ -7,6 +7,7 @@
 // Dimensions
   let width = 400;
   let height = 400;
+  let radius = 5; 
 
   const margin = {
     right: 20,
@@ -39,25 +40,30 @@
 
   // Import Tooltip component
   import Tooltip from '$components/Tooltip.svelte';
+  import { sort } from 'd3-array';
+
+
 
 </script>
 
 <!-- Svelte each block to display data (must be in component markup, not inside <script>) -->
 <div class="scatterplot-container" bind:clientWidth={width}>
-<svg width={width} height={height} style="border:1px solid black;">
+<svg width={width} height={height} on:mouseleave={() => hoveredData = null} style="border:1px solid black;">
   <g transform="translate({margin.left}, {margin.top})">  
 <AxisX xScale={xScale} height={innerHeight} width={innerWidth} />
 <AxisY yScale={yScale} width={innerWidth} />
-  {#each data as d}
+  {#each data.sort((a, b) => a.grade - b.grade) as d, index}
     <circle
       cx={xScale(d.grade)}
-      cy={yScale(d.hours)}
-      r={5}
+      cy={yScale(d.hours)}      
       fill="purple"
       stroke="black"
       stroke-width="1"
+      r={hoveredData === d ? radius * 2 : radius }
+      opacity={hoveredData ? (hoveredData == d ? 1 : 0.45) : 0.85}
       on:mouseover={() => hoveredData = d}
       on:focus={() => hoveredData = d}
+      tabindex="0"
     />
   {/each}
   </g>
@@ -79,5 +85,12 @@
   .scatterplot-container {
     position: relative;
   }
+
+  circle {
+    transition: r 0.3s ease, opacity 0.5s ease;
+    cursor: pointer;
+  }
+
+
 
 </style>
