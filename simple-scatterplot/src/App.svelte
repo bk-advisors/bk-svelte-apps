@@ -46,6 +46,7 @@
 
 </script>
 
+<h1>Students who studied longer scored higher on the exam.</h1>
 <!-- Svelte each block to display data (must be in component markup, not inside <script>) -->
 <div class="scatterplot-container" bind:clientWidth={width}>
 <svg width={width} height={height} on:mouseleave={() => hoveredData = null} style="border:1px solid black;">
@@ -89,6 +90,13 @@
   circle {
     transition: r 0.3s ease, opacity 0.5s ease;
     cursor: pointer;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #374151; /* Tailwind gray-700 */
   }
 
 
