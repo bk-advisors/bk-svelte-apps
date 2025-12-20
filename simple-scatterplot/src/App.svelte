@@ -42,11 +42,12 @@
   import Tooltip from '$components/Tooltip.svelte';
   import { sort } from 'd3-array';
 
-
+  // Add transitions to circles
+  import {fly} from 'svelte/transition';
 
 </script>
 
-<h1>Students who studied longer scored higher on the exam.</h1>
+<h1>Students who studied longer scored higher on the final exam.</h1>
 <!-- Svelte each block to display data (must be in component markup, not inside <script>) -->
 <div class="scatterplot-container" bind:clientWidth={width}>
 <svg width={width} height={height} on:mouseleave={() => hoveredData = null} style="border:1px solid black;">
@@ -55,6 +56,7 @@
 <AxisY yScale={yScale} width={innerWidth} />
   {#each data.sort((a, b) => a.grade - b.grade) as d, index}
     <circle
+      in:fly={{x:-10, opacity:0, delay: index * 20}}
       cx={xScale(d.grade)}
       cy={yScale(d.hours)}      
       fill="purple"
@@ -98,7 +100,6 @@
     margin-bottom: 0.5rem;
     color: #374151; /* Tailwind gray-700 */
   }
-
 
 
 </style>
